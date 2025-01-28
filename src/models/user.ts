@@ -13,7 +13,7 @@ interface UserAttributes {
 }
 
 // Define the attributes that are optional during model creation
-interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'creation_date'> {
+interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'creation_date' | 'active'> {
 }
 
 // Define the User model class
@@ -60,6 +60,7 @@ User.init(
         active: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
+            defaultValue: true,
         },
         is_email_validated: {
             type: DataTypes.BOOLEAN,
