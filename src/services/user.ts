@@ -30,7 +30,7 @@ export const login = async (email: string, password: string) => {
     }
     const user = await User.findOne({where: {email}});
     if (!user) {
-        throw new ServerError(ErrorType.UNAUTHORIZED.message, ErrorType.UNAUTHORIZED.httpCode);
+        throw new ServerError(ErrorType.USER_DOES_NOT_EXIST.message, ErrorType.USER_DOES_NOT_EXIST.httpCode);
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
