@@ -41,7 +41,7 @@ const login = async (email: string, password: string): Promise<string> => {
     return jwt.sign({id: user.id}, JWT_SECRET, {expiresIn: '1h'});
 }
 
-const getById = async (id: string): Promise<object> => {
+const getById = async (id: number): Promise<object> => {
     const user: User | null = await User.findByPk(id);
 
     if (!user) {
