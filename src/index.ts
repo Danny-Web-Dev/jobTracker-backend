@@ -1,9 +1,8 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
 import sequelize from './config/sequelize';
-import authRoutes from './routes/authRoutes';
+import userController from './controllers/user';
 import wrapResponse from "./middlewares/serverResponse";
-// import applicationRoutes from './routes/applicationRoutes';
 
 dotenv.config();
 
@@ -26,7 +25,7 @@ app.use(express.json());
 app.use(wrapResponse)
 
 // Routes
-app.use('/api', authRoutes);
+app.use('/user', userController);
 // app.use('/applications', applicationRoutes);
 
 // Start server
