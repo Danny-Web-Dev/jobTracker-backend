@@ -14,8 +14,6 @@ const EXCLUDED_PATHS: string[] = [
 ];
 
 const loginFilter = (req: Request, res: Response, next: NextFunction): void => {
-
-    // Check if the current path is in the excluded list
     if (EXCLUDED_PATHS.includes(req.path)) {
         next(); // Skip authentication for excluded paths
         return;
@@ -33,8 +31,7 @@ const loginFilter = (req: Request, res: Response, next: NextFunction): void => {
     try {
         // Verify the JWT token and add to request
         req.body.userToken = jwt.verify(token, JWT_SECRET);
-
-        next(); // Proceed to the next middleware or route handler
+        next();
     } catch (error) {
         console.error('JWT Verification Error:', error);
         res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorTypes.UNAUTHORIZED.httpCode});
