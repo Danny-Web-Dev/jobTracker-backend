@@ -4,9 +4,15 @@ import bcrypt from "bcrypt";
 import ServerError from "../errors/serverError";
 import jwt from "jsonwebtoken";
 import ErrorType from "../errors/errorTypes";
+import ErrorTypes from "../errors/errorTypes";
 
 export const register = async (data: Request): Promise<User> => {
-    const { email } = data.body;
+    const { name, email, password } = data.body;
+
+    if (!name || !email || !password) {
+        throw new ServerError(ErrorType.MISSING_PARAMETERS.message, ErrorTypes.MISSING_PARAMETERS.httpCode);
+    }
+
     const existingUser = await User.findOne({where: {email}});
     if (existingUser) {
         throw new ServerError(ErrorType.USER_ALREADY_EXIST.message, ErrorType.USER_ALREADY_EXIST.httpCode);

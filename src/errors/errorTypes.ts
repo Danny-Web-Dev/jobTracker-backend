@@ -34,6 +34,12 @@ const ErrorType = {
         httpCode: 603,
         message: 'Failed to send email',
         isShowStackTrace: false,
+    },
+    MISSING_PARAMETERS: {
+        id: 7,
+        httpCode: 604,
+        message: 'Missing one or more parameters',
+        isShowStackTrace: false,
     }
 };
 
