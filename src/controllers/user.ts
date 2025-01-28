@@ -32,6 +32,12 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
 
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     const id = req.params.id || null;
+
+    if (req.body.userToken.id != id) {
+        res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorType.UNAUTHORIZED.httpCode});
+        return;
+    }
+
     if (!id) {
         res.json({message: ErrorTypes.INVALID_PARAMETERS.message, statusCode: ErrorType.INVALID_PARAMETERS.httpCode});
         return;

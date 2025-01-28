@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import sequelize from './config/sequelize';
 import userController from './controllers/user';
 import wrapResponse from "./middlewares/serverResponse";
+import loginFilter from "./middlewares/loginFilter";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(express.json());
 
 app.use(wrapResponse)
 
+app.use(loginFilter)
 // Routes
 app.use('/user', userController);
 

@@ -14,7 +14,7 @@ const ErrorType = {
     UNAUTHORIZED: {
         id: 3,
         httpCode: 401,
-        message: 'Login failed, invalid user name or password',
+        message: 'Unauthorized user',
         isShowStackTrace: false,
     },
     USER_DOES_NOT_EXIST: {
@@ -45,6 +45,12 @@ const ErrorType = {
         id: 8,
         httpCode: 605,
         message: 'Invalid Parameters',
+        isShowStackTrace: false,
+    },
+    TOKEN_EXPIRED: {
+        id: 9,
+        httpCode: 402,
+        message: 'Token expired',
         isShowStackTrace: false,
     }
 };
