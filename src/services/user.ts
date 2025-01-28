@@ -22,7 +22,7 @@ const register = async (data: Request): Promise<User> => {
     return await User.create(data.body);
 }
 
-const login = async (email: string, password: string) => {
+const login = async (email: string, password: string): Promise<string> => {
     const JWT_SECRET = process.env.JWT_SECRET;
     if (!JWT_SECRET) {
         console.error('No JWT secret found in the .env file');
@@ -41,7 +41,23 @@ const login = async (email: string, password: string) => {
     return jwt.sign({id: user.id}, JWT_SECRET, {expiresIn: '1h'});
 }
 
+const getById = async (id: string): Promise<object> => {
+    const user: User | null = await User.findByPk(id);
+
+    if (!user) {
+        throw new ServerError(ErrorType.USER_DOES_NOT_EXIST.message, ErrorType.USER_DOES_NOT_EXIST.httpCode);
+    }
+
+    return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        active: user.active
+    };
+}
+
 export {
     register,
-    login
+    login,
+    getById
 }

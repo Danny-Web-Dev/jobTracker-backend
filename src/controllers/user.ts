@@ -1,7 +1,9 @@
 import {Router, Request, Response} from 'express';
 import dotenv from 'dotenv';
-import {login, register} from "../services/user";
+import {login, register, getById} from "../services/user";
 import {sendEmailOtp} from "../services/mailer";
+import ErrorTypes from "../errors/errorTypes";
+import ErrorType from "../errors/errorTypes";
 dotenv.config();
 const router = Router();
 
@@ -27,5 +29,15 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
         res.json(error);
     }
 });
+
+router.get('/:id', async (req: Request, res: Response): Promise<void> => {
+    const id = req.params.id || null;
+    if (!id) {
+        res.json({message: ErrorTypes.INVALID_PARAMETERS.message, statusCode: ErrorType.INVALID_PARAMETERS.httpCode});
+        return;
+    }
+    const result = await getById(id);
+    res.json(result);
+})
 
 export default router;

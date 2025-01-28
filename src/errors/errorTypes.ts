@@ -40,6 +40,12 @@ const ErrorType = {
         httpCode: 604,
         message: 'Missing one or more parameters',
         isShowStackTrace: false,
+    },
+    INVALID_PARAMETERS: {
+        id: 8,
+        httpCode: 605,
+        message: 'Invalid Parameters',
+        isShowStackTrace: false,
     }
 };
 
