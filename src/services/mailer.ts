@@ -19,7 +19,7 @@ const init = (): nodemailer.Transporter<SMTPTransport.SentMessageInfo, SMTPTrans
     });
 }
 
-export const sendEmailOtp = async (emailAddress: string, userId: number): Promise<SentMessageInfo> => {
+const sendEmailOtp = async (emailAddress: string, userId: number): Promise<SentMessageInfo> => {
     try {
         const otpCode = getRandomOtp();
         const message = dictionary.email.otp.message + ` ${otpCode}`;
@@ -49,4 +49,8 @@ const getRandomOtp = (): string => {
 
 const saveAttempt = async (userId: number, otpCode: string):Promise<Otp> => {
     return await Otp.create({user_id: userId, otp_code: otpCode});
+}
+
+export {
+    sendEmailOtp,
 }
