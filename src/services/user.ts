@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import ErrorType from "../errors/errorTypes";
 import ErrorTypes from "../errors/errorTypes";
 
-export const register = async (data: Request): Promise<User> => {
+const register = async (data: Request): Promise<User> => {
     const { name, email, password } = data.body;
 
     if (!name || !email || !password) {
@@ -22,7 +22,7 @@ export const register = async (data: Request): Promise<User> => {
     return await User.create(data.body);
 }
 
-export const login = async (email: string, password: string) => {
+const login = async (email: string, password: string) => {
     const JWT_SECRET = process.env.JWT_SECRET;
     if (!JWT_SECRET) {
         console.error('No JWT secret found in the .env file');
@@ -39,4 +39,9 @@ export const login = async (email: string, password: string) => {
     }
 
     return jwt.sign({id: user.id}, JWT_SECRET, {expiresIn: '1h'});
+}
+
+export {
+    register,
+    login
 }
