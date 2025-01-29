@@ -1,5 +1,6 @@
 import {DataTypes, Model, Optional} from 'sequelize';
 import sequelize from '../config/sequelize';
+import {format} from "date-fns";
 
 interface ShortCodeAttributes {
     id: number;
@@ -32,6 +33,10 @@ ShortCode.init(
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             allowNull: false,
+            get(): string | null {
+                const rawValue = this.getDataValue('creation_date');
+                return rawValue ? format(rawValue, 'yyyy-MM-dd HH:mm:ss') : null;
+            }
         },
         short_code: {
             type: DataTypes.STRING,
@@ -51,7 +56,7 @@ ShortCode.init(
     {
         sequelize,
         modelName: 'email_validation_short_codes',
-        timestamps: false, // Disable automatic timestamps
+        timestamps: false,
     }
 );
 

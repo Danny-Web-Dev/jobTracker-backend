@@ -1,32 +1,27 @@
 import {DataTypes, Model, Optional} from 'sequelize';
+import { format } from 'date-fns';
 import sequelize from '../config/sequelize';
-import {format} from "date-fns";
 
-// Define the attributes of the User model
-interface UserAttributes {
+interface StepAttributes {
     id: number;
-    name: string;
-    email: string;
-    password: string;
+    title: string;
     creation_date: Date;
+    user_id: number;
     active: boolean;
-    is_email_validated: boolean;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'creation_date' | 'active'> {
+interface StepCreationAttributes extends Optional<StepAttributes, 'id' | 'creation_date' | 'active'> {
 }
 
-class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+class Step extends Model<StepAttributes, StepCreationAttributes> implements StepAttributes {
     public id!: number;
-    public name!: string;
-    public email!: string;
-    public password!: string;
+    public title!: string;
     public creation_date!: Date;
+    public user_id!: number;
     public active!: boolean;
-    public is_email_validated!: boolean;
 }
 
-User.init(
+Step.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -34,20 +29,12 @@ User.init(
             primaryKey: true,
             autoIncrement: true,
         },
-        name: {
+        title: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true,
-            },
-        },
-        password: {
-            type: DataTypes.STRING,
+        user_id: {
+            type: DataTypes.NUMBER,
             allowNull: false,
         },
         creation_date: {
@@ -64,17 +51,12 @@ User.init(
             allowNull: false,
             defaultValue: true,
         },
-        is_email_validated: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
-        }
     },
     {
         sequelize,
-        modelName: 'User',
+        modelName: 'steps',
         timestamps: false,
     }
 );
 
-export default User;
+export default Step;

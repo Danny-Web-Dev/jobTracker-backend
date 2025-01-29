@@ -4,14 +4,13 @@ import bcrypt from "bcrypt";
 import ServerError from "../errors/serverError";
 import jwt from "jsonwebtoken";
 import ErrorType from "../errors/errorTypes";
-import ErrorTypes from "../errors/errorTypes";
 import ShortCode from "../models/shortCode";
 
 const register = async (data: Request): Promise<User> => {
     const { name, email, password } = data.body;
 
     if (!name || !email || !password) {
-        throw new ServerError(ErrorType.BAD_REQUEST.message, ErrorTypes.BAD_REQUEST.httpCode);
+        throw new ServerError(ErrorType.BAD_REQUEST.message, ErrorType.BAD_REQUEST.httpCode);
     }
 
     const existingUser = await User.findOne({where: {email}});

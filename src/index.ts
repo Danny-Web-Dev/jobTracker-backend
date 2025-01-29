@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import sequelize from './config/sequelize';
 import userController from './controllers/user';
 import shortCodeController from './controllers/shortCode'
+import stepController from './controllers/step';
 import wrapResponse from "./middlewares/serverResponse";
 import loginFilter from "./middlewares/loginFilter";
 
@@ -31,6 +32,7 @@ app.use(loginFilter)
 // Routes
 app.use('/user', userController);
 app.use('/sc', shortCodeController);
+app.use('/step', stepController);
 
 app.listen(PORT, (): void => {
     console.log(`Server is running on http://localhost:${PORT}`);

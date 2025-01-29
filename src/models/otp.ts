@@ -1,5 +1,6 @@
 import {DataTypes, Model, Optional} from 'sequelize';
 import sequelize from '../config/sequelize';
+import {format} from "date-fns";
 
 interface OtpAttributes {
     id: number;
@@ -39,12 +40,16 @@ Otp.init(
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             allowNull: false,
+            get(): string | null {
+                const rawValue = this.getDataValue('creation_date');
+                return rawValue ? format(rawValue, 'yyyy-MM-dd HH:mm:ss') : null;
+            }
         },
     },
     {
         sequelize,
         modelName: 'otp_attempts',
-        timestamps: false, // Disable automatic timestamps
+        timestamps: false,
     }
 );
 
