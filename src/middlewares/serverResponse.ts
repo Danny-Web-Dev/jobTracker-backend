@@ -24,7 +24,6 @@ const wrapResponse = (req: Request, res: Response, next: NextFunction) => {
                 success: false,
                 data: {
                     message: message,
-
                 }
             };
 
