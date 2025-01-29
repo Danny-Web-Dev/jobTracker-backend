@@ -2,7 +2,7 @@ import {Request, Response, NextFunction} from 'express';
 
 interface WrappedResponse<T> {
     success: boolean;
-    data: T | { message: string; statusCode: string };
+    data: T | { message: string; errorCode: number };
 }
 
 const wrapResponse = (req: Request, res: Response, next: NextFunction) => {
