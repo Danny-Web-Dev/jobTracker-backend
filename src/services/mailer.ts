@@ -23,7 +23,7 @@ const init = (): nodemailer.Transporter<SMTPTransport.SentMessageInfo, SMTPTrans
         });
     } catch (err) {
         console.error('Error reading file:', err);
-        throw new ServerError(ErrorTypes.GOOGLE_MAIL_SERVICE_FAILURE.message, ErrorType.GOOGLE_MAIL_SERVICE_FAILURE.httpCode);
+        throw new ServerError(ErrorTypes.GOOGLE_MAIL_SERVICE_FAILURE.message, ErrorType.GOOGLE_MAIL_SERVICE_FAILURE.errorCode);
     }
 }
 

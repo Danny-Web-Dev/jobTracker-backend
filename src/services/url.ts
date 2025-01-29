@@ -15,7 +15,7 @@ const createUrl = async (userId: number):Promise<string> => {
         return process.env.HOST_ADDRESS + '/sc/' + shortCode;
     } catch (err) {
         console.error(err);
-        throw new ServerError(ErrorType.FAILED_TO_CREATE_URL.message, ErrorType.FAILED_TO_CREATE_URL.httpCode);
+        throw new ServerError(ErrorType.FAILED_TO_CREATE_URL.message, ErrorType.FAILED_TO_CREATE_URL.errorCode);
     }
 }
 
@@ -56,7 +56,7 @@ const generateRandomString = (length: number = 5): string => {
 const deactivate = async (shortCode: string): Promise<void> => {
     const isUrlActive = await isActive(shortCode);
     if (!isUrlActive) {
-        throw new ServerError(ErrorTypes.LINK_IS_NOT_ACTIVE.message, ErrorType.LINK_IS_NOT_ACTIVE.httpCode);
+        throw new ServerError(ErrorTypes.LINK_IS_NOT_ACTIVE.message, ErrorType.LINK_IS_NOT_ACTIVE.errorCode);
     }
     const result = await ShortCode.update(
         {is_active: false},

@@ -24,9 +24,12 @@ router.put('/update', async (req: Request, res: Response): Promise<void> => {
         await update(id, userId, updateData);
         res.json();
     } catch (error: any) {
-        console.error(error);
+        console.error('error2', error);
         res.json(error);
     }
 })
 
+router.get('/all', async (req: Request, res: Response): Promise<void> => {
+
+})
 export default router;

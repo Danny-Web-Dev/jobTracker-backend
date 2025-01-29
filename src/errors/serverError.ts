@@ -1,10 +1,10 @@
 class ServerError extends Error {
-    public statusCode: number;
+    public errorCode: number;
     public additionalData?: string;
 
-    constructor(message: string, statusCode: number, additionalData?: string) {
+    constructor(message: string, errorCode: number, additionalData?: string) {
         super(message);
-        this.statusCode = statusCode;
+        this.errorCode = errorCode;
         this.additionalData = additionalData;
 
         // Maintain proper stack trace

@@ -27,7 +27,7 @@ const loginFilter = (req: Request, res: Response, next: NextFunction): void => {
     // Get the token from the Authorization header
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorTypes.UNAUTHORIZED.httpCode});
+        res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorTypes.UNAUTHORIZED.errorCode});
         return;
     }
 
@@ -40,7 +40,7 @@ const loginFilter = (req: Request, res: Response, next: NextFunction): void => {
         next();
     } catch (error) {
         console.error('JWT Verification Error:', error);
-        res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorTypes.UNAUTHORIZED.httpCode});
+        res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorTypes.UNAUTHORIZED.errorCode});
     }
 };
 

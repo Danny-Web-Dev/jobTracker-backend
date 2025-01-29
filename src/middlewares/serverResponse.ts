@@ -12,7 +12,7 @@ const wrapResponse = (req: Request, res: Response, next: NextFunction) => {
 
         body = body || {};
 
-        if (!body.statusCode) {
+        if (!body.errorCode) {
             wrappedBody = {
                 success: true,
                 data: body
@@ -27,10 +27,10 @@ const wrapResponse = (req: Request, res: Response, next: NextFunction) => {
                 }
             };
 
-            if (body.statusCode >= 400 && body.statusCode < 600) {
-                res.statusCode = body.statusCode;
+            if (body.errorCode >= 400 && body.errorCode < 600) {
+                res.statusCode = body.errorCode;
             } else {
-                wrappedBody.data.errorCode = body.statusCode;
+                wrappedBody.data.errorCode = body.errorCode;
             }
         }
 

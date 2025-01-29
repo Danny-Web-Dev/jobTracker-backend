@@ -10,12 +10,12 @@ const register = async (data: Request): Promise<User> => {
     const { name, email, password } = data.body;
 
     if (!name || !email || !password) {
-        throw new ServerError(ErrorType.BAD_REQUEST.message, ErrorType.BAD_REQUEST.httpCode);
+        throw new ServerError(ErrorType.BAD_REQUEST.message, ErrorType.BAD_REQUEST.errorCode);
     }
 
     const existingUser = await User.findOne({where: {email}});
     if (existingUser) {
-        throw new ServerError(ErrorType.USER_ALREADY_EXIST.message, ErrorType.USER_ALREADY_EXIST.httpCode);
+        throw new ServerError(ErrorType.USER_ALREADY_EXIST.message, ErrorType.USER_ALREADY_EXIST.errorCode);
     }
 
     data.body.password = await bcrypt.hash(data.body.password, 10);
@@ -26,21 +26,21 @@ const login = async (email: string, password: string): Promise<string> => {
     const JWT_SECRET = process.env.JWT_SECRET;
     if (!JWT_SECRET) {
         console.error('No JWT secret found in the .env file');
-        throw new ServerError(ErrorType.GENERAL_ERROR.message, ErrorType.GENERAL_ERROR.httpCode);
+        throw new ServerError(ErrorType.GENERAL_ERROR.message, ErrorType.GENERAL_ERROR.errorCode);
     }
 
     const user = await User.findOne({where: {email}, raw: true});
     if (!user?.is_email_validated) {
-        throw new ServerError(ErrorType.EMAIL_IS_NOT_VALIDATED.message, ErrorType.EMAIL_IS_NOT_VALIDATED.httpCode);
+        throw new ServerError(ErrorType.EMAIL_IS_NOT_VALIDATED.message, ErrorType.EMAIL_IS_NOT_VALIDATED.errorCode);
     }
 
     if (!user) {
-        throw new ServerError(ErrorType.USER_DOES_NOT_EXIST.message, ErrorType.USER_DOES_NOT_EXIST.httpCode);
+        throw new ServerError(ErrorType.USER_DOES_NOT_EXIST.message, ErrorType.USER_DOES_NOT_EXIST.errorCode);
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-        throw new ServerError(ErrorType.UNAUTHORIZED.message, ErrorType.UNAUTHORIZED.httpCode);
+        throw new ServerError(ErrorType.UNAUTHORIZED.message, ErrorType.UNAUTHORIZED.errorCode);
     }
 
     return jwt.sign({id: user.id}, JWT_SECRET, {expiresIn: '1h'});
@@ -50,7 +50,7 @@ const getById = async (id: number): Promise<object> => {
     const user: User | null = await User.findByPk(id);
 
     if (!user) {
-        throw new ServerError(ErrorType.USER_DOES_NOT_EXIST.message, ErrorType.USER_DOES_NOT_EXIST.httpCode);
+        throw new ServerError(ErrorType.USER_DOES_NOT_EXIST.message, ErrorType.USER_DOES_NOT_EXIST.errorCode);
     }
 
     return {
