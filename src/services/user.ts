@@ -29,7 +29,12 @@ const login = async (email: string, password: string): Promise<string> => {
         console.error('No JWT secret found in the .env file');
         throw new ServerError(ErrorType.GENERAL_ERROR.message, ErrorType.GENERAL_ERROR.httpCode);
     }
-    const user = await User.findOne({where: {email}});
+
+    const user = await User.findOne({where: {email}, raw: true});
+    if (!user?.is_email_validated) {
+        throw new ServerError(ErrorType.EMAIL_IS_NOT_VALIDATED.message, ErrorType.EMAIL_IS_NOT_VALIDATED.httpCode);
+    }
+
     if (!user) {
         throw new ServerError(ErrorType.USER_DOES_NOT_EXIST.message, ErrorType.USER_DOES_NOT_EXIST.httpCode);
     }

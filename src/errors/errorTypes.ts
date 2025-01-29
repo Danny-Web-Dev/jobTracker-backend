@@ -53,6 +53,12 @@ const ErrorType = {
         message: 'Link is not active',
         isShowStackTrace: false,
     },
+    EMAIL_IS_NOT_VALIDATED: {
+        id: 10,
+        httpCode: 606,
+        message: 'Please validate email',
+        isShowStackTrace: false,
+    },
 };
 
 export default ErrorType;
