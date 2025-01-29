@@ -56,7 +56,7 @@ const generateRandomString = (length: number = 5): string => {
 const deactivate = async (shortCode: string): Promise<void> => {
     const isUrlActive = await isActive(shortCode);
     if (!isUrlActive) {
-        throw new ServerError(ErrorTypes.FAILED_TO_DEACTIVATE_URL.message, ErrorType.FAILED_TO_DEACTIVATE_URL.httpCode);
+        throw new ServerError(ErrorTypes.LINK_IS_NOT_ACTIVE.message, ErrorType.LINK_IS_NOT_ACTIVE.httpCode);
     }
     const result = await ShortCode.update(
         {is_active: false},

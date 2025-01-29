@@ -47,10 +47,10 @@ const ErrorType = {
         message: 'Failed to create url',
         isShowStackTrace: false,
     },
-    FAILED_TO_DEACTIVATE_URL: {
+    LINK_IS_NOT_ACTIVE: {
         id: 9,
         httpCode: 605,
-        message: 'Failed to deactivate url',
+        message: 'Link is not active',
         isShowStackTrace: false,
     },
 };
