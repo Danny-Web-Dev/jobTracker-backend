@@ -29,7 +29,7 @@ const generateUniqueShortCode = async (): Promise<string> => {
 
     while (!isUnique || !randomString.length) {
         randomString = generateRandomString();
-        const existingCode = await ShortCode.findOne({ where: { short_code: randomString } });
+        const existingCode = await ShortCode.findOne({ where: { short_code: randomString, is_active: true } });
 
         if (!existingCode) {
             isUnique = true;
