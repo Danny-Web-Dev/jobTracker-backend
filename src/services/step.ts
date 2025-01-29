@@ -14,6 +14,15 @@ const create = async (title: string, userId: number): Promise<Step> => {
     }
 }
 
+const update = async (id: number, userId: number, updateData: object): Promise<any> => {
+    try {
+        return await Step.update(updateData, {where: {id: id, user_id: userId}});
+    } catch (error: any) {
+        console.error(error);
+    }
+}
+
 export {
-    create
+    create,
+    update
 }

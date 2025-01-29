@@ -1,15 +1,14 @@
 import {Router, Request, Response} from 'express';
 import dotenv from 'dotenv';
-import {create} from "../services/step";
+import {create, update} from "../services/step";
 
 dotenv.config();
 const router = Router();
 
 router.post('/create', async (req: Request, res: Response): Promise<void> => {
-    const {title} = req.body;
-    const userId = req.body.tokenData.id;
-
     try {
+        const {title} = req.body;
+        const userId = res.locals.user.data;
         const step = await create(title, userId);
         res.json(step);
     } catch (error: any) {
@@ -17,5 +16,17 @@ router.post('/create', async (req: Request, res: Response): Promise<void> => {
         res.json(error);
     }
 });
+
+router.put('/update', async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id, ...updateData } = req.body;
+        const userId = res.locals.user.data.id;
+        await update(id, userId, updateData);
+        res.json();
+    } catch (error: any) {
+        console.error(error);
+        res.json(error);
+    }
+})
 
 export default router;
