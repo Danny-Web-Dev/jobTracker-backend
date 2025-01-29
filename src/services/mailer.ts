@@ -2,19 +2,29 @@ import nodemailer, {SentMessageInfo} from 'nodemailer';
 import dotenv from "dotenv";
 import dictionary from "../config/dictionary";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
-import Otp from "../models/otp";
+import * as fs from 'fs';
 import {createUrl} from "./url";
+import ServerError from "../errors/serverError";
+import ErrorTypes from "../errors/errorTypes";
+import ErrorType from "../errors/errorTypes";
 
 dotenv.config();
 
 const init = (): nodemailer.Transporter<SMTPTransport.SentMessageInfo, SMTPTransport.Options> => {
-    return nodemailer.createTransport({
-        service: process.env.SMTP_SERVICE,
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
-    });
+    try {
+        const googlePassPath = process.env.EMAIL_PASS || '';
+        const googlePassword = fs.readFileSync(googlePassPath, 'utf8');
+        return nodemailer.createTransport({
+            service: process.env.SMTP_SERVICE,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: googlePassword,
+            },
+        });
+    } catch (err) {
+        console.error('Error reading file:', err);
+        throw new ServerError(ErrorTypes.GENERAL_ERROR.message, ErrorType.GENERAL_ERROR.httpCode);
+    }
 }
 
 const sendEmailOtp = async (emailAddress: string, userId: number): Promise<SentMessageInfo> => {
