@@ -10,7 +10,7 @@ const register = async (data: Request): Promise<User> => {
     const { name, email, password } = data.body;
 
     if (!name || !email || !password) {
-        throw new ServerError(ErrorType.MISSING_PARAMETERS.message, ErrorTypes.MISSING_PARAMETERS.httpCode);
+        throw new ServerError(ErrorType.BAD_REQUEST.message, ErrorTypes.BAD_REQUEST.httpCode);
     }
 
     const existingUser = await User.findOne({where: {email}});

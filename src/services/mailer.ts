@@ -33,7 +33,6 @@ const sendEmailOtp = async (emailAddress: string, userId: number): Promise<SentM
         await saveAttempt(userId, otpCode)
     } catch (error: any) {
         console.error(error.message);
-        throw new ServerError(ErrorType.FAILED_TO_SEND_EMAIL.message, ErrorTypes.FAILED_TO_SEND_EMAIL.httpCode, ` emailAddress: ${emailAddress}.`);
     }
 
 }

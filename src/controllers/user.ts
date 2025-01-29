@@ -37,7 +37,7 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
         return;
     }
     if (!id) {
-        res.json({message: ErrorTypes.INVALID_PARAMETERS.message, statusCode: ErrorType.INVALID_PARAMETERS.httpCode});
+        res.json({message: ErrorTypes.BAD_REQUEST.message, statusCode: ErrorType.BAD_REQUEST.httpCode});
         return;
     }
     const result = await getById(id);

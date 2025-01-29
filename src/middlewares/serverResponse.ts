@@ -19,13 +19,20 @@ const wrapResponse = (req: Request, res: Response, next: NextFunction) => {
             };
         } else {
             const message = body.additionalData ? body.message + ' ' + body.additionalData : body.message || 'An error occurred';
+
             wrappedBody = {
                 success: false,
                 data: {
                     message: message,
-                    errorCode: body.statusCode
+
                 }
             };
+
+            if (body.statusCode >= 400 && body.statusCode < 600) {
+                res.statusCode = body.statusCode;
+            } else {
+                wrappedBody.data.errorCode = body.statusCode;
+            }
         }
 
         return originalJson.call(this, wrappedBody);
