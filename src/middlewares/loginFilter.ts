@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import {Request, Response, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import ErrorTypes from "../errors/errorTypes";
@@ -27,8 +27,8 @@ const loginFilter = (req: Request, res: Response, next: NextFunction): void => {
     // Get the token from the Authorization header
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-         res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorTypes.UNAUTHORIZED.httpCode});
-         return;
+        res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorTypes.UNAUTHORIZED.httpCode});
+        return;
     }
 
     const token = authHeader.split(' ')[1];

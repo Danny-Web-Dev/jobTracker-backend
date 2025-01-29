@@ -2,9 +2,9 @@ import {Router, Request, Response} from 'express';
 import dotenv from 'dotenv';
 import {validateEmail} from "../services/user";
 import {deactivate} from "../services/url";
+
 dotenv.config();
 const router = Router();
-
 
 router.get('/*', async (req: Request, res: Response): Promise<void> => {
     try {

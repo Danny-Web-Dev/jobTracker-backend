@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import express, {Application} from 'express';
 import dotenv from 'dotenv';
 import sequelize from './config/sequelize';
 import userController from './controllers/user';

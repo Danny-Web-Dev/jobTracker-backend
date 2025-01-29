@@ -4,6 +4,7 @@ import {login, register, getById} from "../services/user";
 import {sendEmailOtp} from "../services/mailer";
 import ErrorTypes from "../errors/errorTypes";
 import ErrorType from "../errors/errorTypes";
+
 dotenv.config();
 const router = Router();
 
