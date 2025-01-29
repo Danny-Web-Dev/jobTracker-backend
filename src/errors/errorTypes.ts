@@ -59,6 +59,12 @@ const ErrorType = {
         message: 'Please validate email',
         isShowStackTrace: false,
     },
+    GOOGLE_MAIL_SERVICE_FAILURE: {
+        id: 11,
+        httpCode: 607,
+        message: 'unable to use google smtp service',
+        isShowStackTrace: false,
+    },
 };
 
 export default ErrorType;
