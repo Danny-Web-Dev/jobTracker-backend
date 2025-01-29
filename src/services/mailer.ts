@@ -1,11 +1,9 @@
 import nodemailer, {SentMessageInfo} from 'nodemailer';
 import dotenv from "dotenv";
-import ServerError from "../errors/serverError";
-import ErrorType from "../errors/errorTypes";
-import ErrorTypes from "../errors/errorTypes";
 import dictionary from "../config/dictionary";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import Otp from "../models/otp";
+import {createUrl} from "./url";
 
 dotenv.config();
 
@@ -21,16 +19,15 @@ const init = (): nodemailer.Transporter<SMTPTransport.SentMessageInfo, SMTPTrans
 
 const sendEmailOtp = async (emailAddress: string, userId: number): Promise<SentMessageInfo> => {
     try {
-        const otpCode = getRandomOtp();
-        const message = dictionary.email.otp.message + ` ${otpCode}`;
+        const url = await createUrl(userId);
+        const message = `${dictionary.email.otp.message} <br><br> <a href="${url}" style="color: blue; text-decoration: underline;">Validate!</a>`;
         const data = {
             from: process.env.EMAIL_USER,
             to: emailAddress,
             subject: dictionary.email.otp.subject,
-            text: message,
+            html: message,
         }
         await sendEmail(data);
-        await saveAttempt(userId, otpCode)
     } catch (error: any) {
         console.error(error.message);
     }
@@ -40,14 +37,6 @@ const sendEmailOtp = async (emailAddress: string, userId: number): Promise<SentM
 const sendEmail = async (data: object): Promise<SentMessageInfo> => {
     const transporter = init();
     return await transporter.sendMail(data);
-}
-
-const getRandomOtp = (): string => {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-}
-
-const saveAttempt = async (userId: number, otpCode: string):Promise<Otp> => {
-    return await Otp.create({user_id: userId, otp_code: otpCode});
 }
 
 export {

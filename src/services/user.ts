@@ -5,6 +5,7 @@ import ServerError from "../errors/serverError";
 import jwt from "jsonwebtoken";
 import ErrorType from "../errors/errorTypes";
 import ErrorTypes from "../errors/errorTypes";
+import ShortCode from "../models/shortCode";
 
 const register = async (data: Request): Promise<User> => {
     const { name, email, password } = data.body;
@@ -56,8 +57,22 @@ const getById = async (id: number): Promise<object> => {
     };
 }
 
+const validateEmail = async (shortCode: string): Promise<void> => {
+    const shortCodeRow = await ShortCode.findOne({ where: { short_code: shortCode },  raw: true });
+    console.log(shortCodeRow);
+    const result = await User.update(
+        {is_email_validated: true},
+        {where: {id: shortCodeRow?.user_id}}
+    );
+    if (!result) {
+        console.error('failed to save email validation on users table, need to change manually');
+    }
+
+}
+
 export {
     register,
     login,
-    getById
+    getById,
+    validateEmail
 }

@@ -11,10 +11,15 @@ const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 const EXCLUDED_PATHS: string[] = [
     '/user/login',
     '/user/register',
+    '/sc/*'
 ];
 
 const loginFilter = (req: Request, res: Response, next: NextFunction): void => {
-    if (EXCLUDED_PATHS.includes(req.path)) {
+    const isExcluded = EXCLUDED_PATHS.some(path =>
+        path === req.path || (path.endsWith('/*') && req.path.startsWith(path.slice(0, -1)))
+    );
+
+    if (isExcluded) {
         next(); // Skip authentication for excluded paths
         return;
     }

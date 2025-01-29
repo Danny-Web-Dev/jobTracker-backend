@@ -2,7 +2,7 @@ const dictionary = {
     'email' : {
         'otp' : {
             'subject' : 'Email Validation',
-            'message' : 'Your verification code is: '
+            'message' : 'In order to validate your email address, press this link below: '
         }
     }
 }

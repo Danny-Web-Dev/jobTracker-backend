@@ -41,6 +41,18 @@ const ErrorType = {
         message: 'Failed to send email',
         isShowStackTrace: false,
     },
+    FAILED_TO_CREATE_URL: {
+        id: 8,
+        httpCode: 604,
+        message: 'Failed to create url',
+        isShowStackTrace: false,
+    },
+    FAILED_TO_DEACTIVATE_URL: {
+        id: 9,
+        httpCode: 605,
+        message: 'Failed to deactivate url',
+        isShowStackTrace: false,
+    },
 };
 
 export default ErrorType;
