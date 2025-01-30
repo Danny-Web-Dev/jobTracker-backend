@@ -27,19 +27,20 @@ const init = (): nodemailer.Transporter<SMTPTransport.SentMessageInfo, SMTPTrans
     }
 }
 
-const sendEmailOtp = async (emailAddress: string, userId: number): Promise<SentMessageInfo> => {
+const sendEmailValidation = async (emailAddress: string, userId: number): Promise<SentMessageInfo> => {
     try {
         const url = await createUrl(userId);
-        const message = `${dictionary.email.otp.message} <br><br> <a href="${url}" style="color: blue; text-decoration: underline;">Validate!</a>`;
+        const message = `${dictionary.email.validation.message} <br><br> <a href="${url}" style="color: blue; text-decoration: underline;">Validate!</a>`;
         const data = {
             from: process.env.EMAIL_USER,
             to: emailAddress,
-            subject: dictionary.email.otp.subject,
+            subject: dictionary.email.validation.subject,
             html: message,
         }
         await sendEmail(data);
     } catch (error: any) {
         console.error(error.message);
+        throw new ServerError(ErrorTypes.GENERAL_ERROR.message, ErrorType.GENERAL_ERROR.errorCode);
     }
 
 }
@@ -50,5 +51,5 @@ const sendEmail = async (data: object): Promise<SentMessageInfo> => {
 }
 
 export {
-    sendEmailOtp,
+    sendEmailValidation,
 }

@@ -1,7 +1,7 @@
 import {Router, Request, Response} from 'express';
 import dotenv from 'dotenv';
 import {login, register, getById} from "../services/user";
-import {sendEmailOtp} from "../services/mailer";
+import {sendEmailValidation} from "../services/mailer";
 import ErrorTypes from "../errors/errorTypes";
 import ErrorType from "../errors/errorTypes";
 
@@ -12,7 +12,7 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
     const {email} = req.body;
     try {
         const user = await register(req);
-        await sendEmailOtp(email, user.id)
+        await sendEmailValidation(email, user.id)
         res.json({id: user.id, isEmailVerified: user.is_email_validated});
     } catch (error: any) {
         console.error(error);

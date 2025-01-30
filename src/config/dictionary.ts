@@ -1,6 +1,6 @@
 const dictionary = {
     'email': {
-        'otp': {
+        'validation': {
             'subject': 'Email Validation',
             'message': 'In order to validate your email address, press this link below: '
         }
