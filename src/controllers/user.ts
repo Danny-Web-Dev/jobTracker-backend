@@ -25,7 +25,7 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
         const {email, password} = req.body;
         const token = await login(email, password);
         res.json({token: token});
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
         res.json(error);
     }

@@ -13,8 +13,8 @@ const createUrl = async (userId: number):Promise<string> => {
         const shortCode = await generateUniqueShortCode()
         await saveShortCode(userId, shortCode);
         return process.env.HOST_ADDRESS + '/sc/' + shortCode;
-    } catch (err) {
-        console.error(err);
+    } catch (error: any) {
+        console.error(error);
         throw new ServerError(ErrorType.FAILED_TO_CREATE_URL.message, ErrorType.FAILED_TO_CREATE_URL.errorCode);
     }
 }

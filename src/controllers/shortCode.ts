@@ -12,9 +12,9 @@ router.get('/*', async (req: Request, res: Response): Promise<void> => {
         await deactivate(shortCode);
         await validateEmail(shortCode);
         res.json();
-    } catch (err) {
-        console.error(err);
-        res.json(err);
+    } catch (error: any) {
+        console.error(error);
+        res.json(error);
     }
 
 });

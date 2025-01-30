@@ -21,8 +21,8 @@ const init = (): nodemailer.Transporter<SMTPTransport.SentMessageInfo, SMTPTrans
                 pass: googlePassword,
             },
         });
-    } catch (err) {
-        console.error('Error reading file:', err);
+    } catch (error: any) {
+        console.error('Error reading file:', error);
         throw new ServerError(ErrorTypes.GOOGLE_MAIL_SERVICE_FAILURE.message, ErrorType.GOOGLE_MAIL_SERVICE_FAILURE.errorCode);
     }
 }
