@@ -33,7 +33,7 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
 
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     const id = +req.params.id || null;
-    if (req.body.userToken.id !== id) {
+    if (res.locals.user.data.id !== id) {
         res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorType.UNAUTHORIZED.errorCode});
         return;
     }

@@ -52,4 +52,5 @@ const sendEmail = async (data: object): Promise<SentMessageInfo> => {
 
 export {
     sendEmailValidation,
+    sendEmail,
 }

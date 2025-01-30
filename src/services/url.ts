@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 import ShortCode from "../models/shortCode";
 import ServerError from "../errors/serverError";
 import ErrorType from "../errors/errorTypes";
-import User from "../models/user";
-import shortCode from "../models/shortCode";
 import ErrorTypes from "../errors/errorTypes";
+import {notifyDev} from "./notifier";
+import dictionary from "../config/dictionary";
 
 dotenv.config();
 
@@ -64,7 +64,8 @@ const deactivate = async (shortCode: string): Promise<void> => {
     )
 
     if (!result) {
-        console.error('unable to deactivate url. need to deactivate manually.');
+        await notifyDev(dictionary.url.deactivation.error,dictionary.url.deactivation.subject);
+        console.error(dictionary.url.deactivation.error);
     }
 }
 
