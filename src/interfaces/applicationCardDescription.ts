@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const ApplicationCardDescription = z.object({
-    step_id: z.number().min(1, 'bla bla bla'),
+    step_id: z.number().min(1),
     short_desc: z.string().nullable(),
     company_size: z.string().nullable(),
     hybrid: z.string().nullable(),
