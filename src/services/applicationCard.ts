@@ -1,0 +1,32 @@
+import ApplicationCard from "../models/applicationCard";
+import ServerError from "../errors/serverError";
+import ErrorType from "../errors/errorTypes";
+
+const create = async (description: object, userId: number): Promise<ApplicationCard> => {
+    try {
+        if (!description || !userId) {
+            throw new ServerError(ErrorType.BAD_REQUEST.message, ErrorType.BAD_REQUEST.errorCode);
+        }
+        return await ApplicationCard.create({user_id: userId, description: description});
+    } catch (error: any) {
+        console.error(error);
+        throw new ServerError(ErrorType.GENERAL_ERROR.message, ErrorType.GENERAL_ERROR.errorCode);
+    }
+}
+
+// const update = async (id: number, userId: number, updateData: object): Promise<any> => {
+//     try {
+//         const result = await Step.update(updateData, {where: {id: id, user_id: userId}});
+//         if (!result[0]) {
+//             throw new ServerError(ErrorType.FAILED_TO_UPDATE.message, ErrorType.FAILED_TO_UPDATE.errorCode);
+//         }
+//     } catch (error: any) {
+//         console.error(error);
+//         throw new ServerError(error.message, error.errorCode);
+//     }
+// }
+
+export {
+    create,
+    // update
+}

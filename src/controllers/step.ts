@@ -8,7 +8,7 @@ const router = Router();
 router.post('/create', async (req: Request, res: Response): Promise<void> => {
     try {
         const {title} = req.body;
-        const userId = res.locals.user.data;
+        const userId = res.locals.user.data.id;
         const step = await create(title, userId);
         res.json(step);
     } catch (error: any) {
