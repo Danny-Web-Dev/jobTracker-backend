@@ -1,13 +1,15 @@
 import {Router, Request, Response} from 'express';
 import dotenv from 'dotenv';
 import {create} from "../services/applicationCard";
+import {ApplicationCardDescriptionRequest} from "../interfaces/applicationCardDescription";
+import {validateApplicationCardDesc} from "../middlewares/applicationCardDescription";
 
 dotenv.config();
 const router = Router();
 
-router.post('/create', async (req: Request, res: Response): Promise<void> => {
+router.post('/create', validateApplicationCardDesc, async (req: Request, res: Response): Promise<void> => {
     try {
-        const {description} = req.body;
+        const description: ApplicationCardDescriptionRequest = req.body;
         const userId = res.locals.user.data.id;
         const step = await create(description, userId);
         res.json(step);
@@ -16,7 +18,6 @@ router.post('/create', async (req: Request, res: Response): Promise<void> => {
         res.json(error);
     }
 });
-
 // router.put('/update', async (req: Request, res: Response): Promise<void> => {
 //     try {
 //         const { id, ...updateData } = req.body;

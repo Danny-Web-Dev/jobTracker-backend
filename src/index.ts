@@ -7,6 +7,7 @@ import stepController from './controllers/step';
 import ApplicationCard from "./controllers/applicationCard";
 import wrapResponse from "./middlewares/serverResponse";
 import loginFilter from "./middlewares/loginFilter";
+// import validateApplicationCardDesc from "./middlewares/applicationCardDescription";
 
 dotenv.config();
 
