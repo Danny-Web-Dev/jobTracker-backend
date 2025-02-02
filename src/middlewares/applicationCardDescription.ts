@@ -11,7 +11,7 @@ const validateApplicationCardDesc = (req: Request, res: Response, next: NextFunc
         return;
     }
 
-    req.body = result.data; // Ensure validated data is passed to the handler
+    req.body = result.data;
     next();
 };
 
