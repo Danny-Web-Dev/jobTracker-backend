@@ -1,4 +1,5 @@
 import {Router, Request, Response} from 'express';
+import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import {login, register, getById} from "../services/user";
 import {sendEmailValidation} from "../services/mailer";
@@ -7,6 +8,13 @@ import ErrorType from "../errors/errorTypes";
 
 dotenv.config();
 const router = Router();
+
+
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // Limit to 5 attempts per window
+    message: "Too many login attempts. Try again later.",
+});
 
 router.post('/register', async (req: Request, res: Response): Promise<void> => {
     const {email} = req.body;
@@ -20,7 +28,7 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
     }
 });
 
-router.post('/login', async (req: Request, res: Response): Promise<void> => {
+router.post('/login', loginLimiter,  async (req: Request, res: Response): Promise<void> => {
     try {
         const {email, password} = req.body;
         const token = await login(email, password);

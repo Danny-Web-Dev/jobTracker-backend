@@ -2,8 +2,6 @@ import {Request, Response, NextFunction} from 'express';
 import {ApplicationCardDescription} from "../interfaces/applicationCardDescription";
 
 const validateApplicationCardDesc = (req: Request, res: Response, next: NextFunction): void => {
-    console.log('made it here!!!');
-    console.log(req.body.description);
     const result = ApplicationCardDescription.safeParse(req.body.description);
 
     if (!result.success) {
@@ -11,7 +9,7 @@ const validateApplicationCardDesc = (req: Request, res: Response, next: NextFunc
         return;
     }
 
-    req.body = result.data;
+    req.body.description = result.data;
     next();
 };
 

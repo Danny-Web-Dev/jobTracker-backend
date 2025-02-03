@@ -7,7 +7,6 @@ import stepController from './controllers/step';
 import ApplicationCard from "./controllers/applicationCard";
 import wrapResponse from "./middlewares/serverResponse";
 import loginFilter from "./middlewares/loginFilter";
-// import validateApplicationCardDesc from "./middlewares/applicationCardDescription";
 
 dotenv.config();
 
@@ -28,9 +27,10 @@ app.use(express.json());
     }
 })();
 
+// Middlewares
 app.use(wrapResponse)
-
 app.use(loginFilter)
+
 // Routes
 app.use('/user', userController);
 app.use('/sc', shortCodeController);

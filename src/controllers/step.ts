@@ -24,7 +24,7 @@ router.put('/update', async (req: Request, res: Response): Promise<void> => {
         await update(id, userId, updateData);
         res.json();
     } catch (error: any) {
-        console.error('error2', error);
+        console.error(error);
         res.json(error);
     }
 })
