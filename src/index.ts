@@ -13,10 +13,6 @@ dotenv.config();
 const app: Application = express();
 const PORT: string | number = process.env.PORT || 3000;
 
-// Middlewares
-app.use(express.json());
-
-
 // connect the DB
 (async (): Promise<void> => {
     try {
@@ -28,6 +24,7 @@ app.use(express.json());
 })();
 
 // Middlewares
+app.use(express.json());
 app.use(wrapResponse)
 app.use(loginFilter)
 
