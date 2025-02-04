@@ -23,7 +23,7 @@ const PORT: string | number = process.env.PORT || 3000;
     }
 })();
 
-// Middlewares
+
 app.use(express.json());
 app.use(wrapResponse)
 app.use(loginFilter)
