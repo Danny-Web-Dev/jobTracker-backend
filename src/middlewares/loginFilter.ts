@@ -2,12 +2,13 @@ import {Request, Response, NextFunction} from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import ErrorTypes from "../errors/errorTypes";
+import {Jwt} from "../utils/jwt";
+
 
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
-// Paths that don't require authentication
 const EXCLUDED_PATHS: string[] = [
     '/user/login',
     '/user/register',
@@ -20,11 +21,10 @@ const loginFilter = (req: Request, res: Response, next: NextFunction): void => {
     );
 
     if (isExcluded) {
-        next(); // Skip authentication for excluded paths
+        next();
         return;
     }
 
-    // Get the token from the Authorization header
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorTypes.UNAUTHORIZED.errorCode});
@@ -34,9 +34,11 @@ const loginFilter = (req: Request, res: Response, next: NextFunction): void => {
     const token = authHeader.split(' ')[1];
 
     try {
-        // Verify the JWT token and add to request
         res.locals.user = jwt.verify(token, JWT_SECRET);
         res.locals.user.data = jwt.decode(token);
+        const data = res.locals.user.data;
+        const appJwt = Jwt.create();
+        appJwt.saveTokenData(data);
         next();
     } catch (error) {
         console.error('JWT Verification Error:', error);

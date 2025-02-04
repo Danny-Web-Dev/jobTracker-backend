@@ -29,7 +29,4 @@ router.put('/update', async (req: Request, res: Response): Promise<void> => {
     }
 })
 
-router.get('/all', async (req: Request, res: Response): Promise<void> => {
-
-})
 export default router;
