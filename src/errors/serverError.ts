@@ -7,7 +7,6 @@ class ServerError extends Error {
         this.errorCode = errorCode;
         this.additionalData = additionalData;
 
-        // Maintain proper stack trace
         Error.captureStackTrace(this, this.constructor);
     }
 }
