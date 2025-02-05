@@ -2,7 +2,6 @@ import {DataTypes, Model, Optional} from 'sequelize';
 import sequelize from '../config/sequelize';
 import {format} from "date-fns";
 
-// Define the attributes of the User model
 interface UserAttributes {
     id: number;
     name: string;
