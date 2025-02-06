@@ -5,6 +5,7 @@ import {login, register, getById} from "../services/user";
 import {sendEmailValidation} from "../services/mailer";
 import ErrorTypes from "../errors/errorTypes";
 import ErrorType from "../errors/errorTypes";
+import {Jwt} from "../utils/jwt";
 
 dotenv.config();
 const router = Router();
@@ -41,7 +42,7 @@ router.post('/login', loginLimiter,  async (req: Request, res: Response): Promis
 
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     const id = +req.params.id || null;
-    if (res.locals.user.data.id !== id) {
+    if (Jwt.getInstance().getUserId() !== id) {
         res.json({message: ErrorTypes.UNAUTHORIZED.message, statusCode: ErrorType.UNAUTHORIZED.errorCode});
         return;
     }

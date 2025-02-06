@@ -1,25 +1,34 @@
 export class Jwt {
+    private static instance: Jwt | null = null;
+
     private constructor() {
         this.userId = null;
-        this.tokenData = null
+        this.tokenData = null;
     }
+
     private userId: number | null;
     private tokenData: object | null;
 
-    static create(): Jwt {
-        return new Jwt();
+    static getInstance(): Jwt {
+        if (!Jwt.instance) {
+            Jwt.instance = new Jwt();
+        }
+        return Jwt.instance;
     }
 
-    saveUserId(userId: number): void {
+    setUserId(userId: number): void {
         this.userId = userId;
     }
 
     getUserId(): number | null {
-        return this.userId || null;
+        return this.userId;
     }
 
-    saveTokenData(data: object): void {
+    setTokenData(data: object): void {
         this.tokenData = data;
-        console.log(this);
+    }
+
+    getTokenData(): object | null {
+        return this.tokenData;
     }
 }

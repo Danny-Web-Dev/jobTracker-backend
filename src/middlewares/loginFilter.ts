@@ -37,8 +37,9 @@ const loginFilter = (req: Request, res: Response, next: NextFunction): void => {
         res.locals.user = jwt.verify(token, JWT_SECRET);
         res.locals.user.data = jwt.decode(token);
         const data = res.locals.user.data;
-        const appJwt = Jwt.create();
-        appJwt.saveTokenData(data);
+        const appJwt = Jwt.getInstance();
+        appJwt.setTokenData(data);
+        appJwt.setUserId(data.user.id)
         next();
     } catch (error) {
         console.error('JWT Verification Error:', error);
