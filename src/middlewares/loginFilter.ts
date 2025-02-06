@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction} from 'express';
-import jwt, { DecodeOptions } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import ErrorTypes from "../errors/errorTypes";
 import {Jwt} from "../utils/jwt";
