@@ -57,7 +57,8 @@ const getById = async (id: number): Promise<object> => {
         id: user.id,
         name: user.name,
         email: user.email,
-        active: user.is_active
+        active: user.is_active,
+        creationDate: user.creation_date
     };
 }
 

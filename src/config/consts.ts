@@ -22,3 +22,21 @@ export const DB_COLUMNS = {
         SHORT_CODE: 'short_code'
     }
 } as const;
+
+export const DATE_FORMATS = {
+    ISO: "yyyy-MM-dd'T'HH:mm:ss.SSSxxx",
+    ISO_DATE: "yyyy-MM-dd",
+    ISO_TIME: "HH:mm:ss",
+    FULL_DATE_TIME: "EEEE, MMMM d, yyyy h:mm a",
+    COMPACT_DATE_TIME: "yyyyMMdd_HHmmss",
+    SQL_DATETIME: "yyyy-MM-dd HH:mm:ss",
+    SQL_DATE: "yyyy-MM-dd",
+    SQL_TIME: "HH:mm:ss",
+    US_DATE: "MM/dd/yyyy",
+    EU_DATE: "dd/MM/yyyy",
+    FILE_SAFE_DATE: "yyyy-MM-dd_HH-mm-ss",
+    SHORT_DATE: "MM/dd/yy",
+    SHORT_TIME: "h:mm a",
+    RFC_2822: "EEE, dd MMM yyyy HH:mm:ss xx",
+    TIMESTAMP: "T",
+};
