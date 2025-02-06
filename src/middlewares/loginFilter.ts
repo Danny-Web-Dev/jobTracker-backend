@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction} from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { DecodeOptions } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import ErrorTypes from "../errors/errorTypes";
 import {Jwt} from "../utils/jwt";
@@ -34,9 +34,8 @@ const loginFilter = (req: Request, res: Response, next: NextFunction): void => {
     const token = authHeader.split(' ')[1];
 
     try {
-        res.locals.user = jwt.verify(token, JWT_SECRET);
-        res.locals.user.data = jwt.decode(token);
-        const data = res.locals.user.data;
+        jwt.verify(token, JWT_SECRET);
+        const data = jwt.decode(token, {json: true}) || {};
         Jwt.getInstance().setTokenData(data);
         Jwt.getInstance().setUserId(data.id);
         next();

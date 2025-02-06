@@ -1,3 +1,5 @@
+import {JwtPayload} from 'jsonwebtoken';
+
 export class Jwt {
     private static instance: Jwt | null = null;
 
@@ -7,7 +9,7 @@ export class Jwt {
     }
 
     private userId: number | null;
-    private tokenData: object | null;
+    private tokenData: JwtPayload | null;
 
     static getInstance(): Jwt {
         if (!Jwt.instance) {
@@ -24,11 +26,11 @@ export class Jwt {
         return this.userId;
     }
 
-    setTokenData(data: object): void {
+    setTokenData(data: JwtPayload ): void {
         this.tokenData = data;
     }
 
-    getTokenData(): object | null {
+    getTokenData(): JwtPayload | null {
         return this.tokenData;
     }
 }
