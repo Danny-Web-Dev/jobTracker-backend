@@ -1,6 +1,7 @@
-import {DataTypes, Model, Optional} from 'sequelize';
-import { format } from 'date-fns';
+import {DataTypes, Optional} from 'sequelize';
 import sequelize from '../config/sequelize';
+import {DB_TABLES} from "../config/consts";
+import {AbstractModel} from "./abstractModel";
 
 interface StepAttributes {
     id: number;
@@ -10,25 +11,17 @@ interface StepAttributes {
     active: boolean;
 }
 
-interface StepCreationAttributes extends Optional<StepAttributes, 'id' | 'creation_date' | 'active'> {
-}
+interface StepCreationAttributes extends Optional<StepAttributes, 'id' | 'creation_date' | 'active'> {}
 
-class Step extends Model<StepAttributes, StepCreationAttributes> implements StepAttributes {
-    public id!: number;
+class Step extends AbstractModel<StepAttributes, StepCreationAttributes> implements StepAttributes {
     public title!: string;
-    public creation_date!: Date;
     public user_id!: number;
     public active!: boolean;
 }
 
 Step.init(
     {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-        },
+        ...AbstractModel.getCommonAttributes(),
         title: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -36,15 +29,6 @@ Step.init(
         user_id: {
             type: DataTypes.NUMBER,
             allowNull: false,
-        },
-        creation_date: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            allowNull: false,
-            get(): string | null {
-                const rawValue = this.getDataValue('creation_date');
-                return rawValue ? format(rawValue, 'yyyy-MM-dd HH:mm:ss') : null;
-            }
         },
         active: {
             type: DataTypes.BOOLEAN,
@@ -54,7 +38,7 @@ Step.init(
     },
     {
         sequelize,
-        modelName: 'steps',
+        modelName: DB_TABLES.STEPS,
         timestamps: false,
     }
 );

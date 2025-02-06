@@ -1,39 +1,32 @@
-import {DataTypes, Model, Optional} from 'sequelize';
-import sequelize from '../config/sequelize';
-import {format} from "date-fns";
+import { DataTypes, Optional } from "sequelize";
+import sequelize from "../config/sequelize";
+import { DB_TABLES } from "../config/consts";
+import { AbstractModel } from "./abstractModel";
 
-// Define the attributes of the User model
 interface UserAttributes {
     id: number;
     name: string;
     email: string;
     password: string;
     creation_date: Date;
-    active: boolean;
+    is_active: boolean;
     is_email_validated: boolean;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'creation_date' | 'active'> {
-}
+interface UserCreationAttributes extends Optional<UserAttributes, "id" | "creation_date" | "is_active"> {}
 
-class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-    public id!: number;
+class User extends AbstractModel<UserAttributes, UserCreationAttributes> implements UserAttributes
+{
     public name!: string;
     public email!: string;
     public password!: string;
-    public creation_date!: Date;
-    public active!: boolean;
+    public is_active!: boolean;
     public is_email_validated!: boolean;
 }
 
 User.init(
     {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-        },
+        ...AbstractModel.getCommonAttributes(),
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -50,16 +43,7 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        creation_date: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            allowNull: false,
-            get(): string | null {
-                const rawValue = this.getDataValue('creation_date');
-                return rawValue ? format(rawValue, 'yyyy-MM-dd HH:mm:ss') : null;
-            }
-        },
-        active: {
+        is_active: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: true,
@@ -68,11 +52,12 @@ User.init(
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
-        }
+        },
     },
     {
         sequelize,
-        modelName: 'User',
+        modelName: DB_TABLES.USERS,
+        tableName: DB_TABLES.USERS,
         timestamps: false,
     }
 );

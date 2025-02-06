@@ -1,52 +1,37 @@
-import {DataTypes, Model, Optional} from 'sequelize';
-import { format } from 'date-fns';
+import {DataTypes, Optional} from 'sequelize';
 import sequelize from '../config/sequelize';
+import {DB_TABLES} from "../config/consts";
+import {AbstractModel} from "./abstractModel";
 
 interface ApplicationCardAttributes {
     id: number;
     creation_date: Date;
     user_id: number;
     description: object
-    active: boolean;
+    is_active: boolean;
 }
 
-interface ApplicationCardCreationAttributes extends Optional<ApplicationCardAttributes, 'id' | 'creation_date' | 'active'> {
-}
+interface ApplicationCardCreationAttributes extends Optional<ApplicationCardAttributes, 'id' | 'creation_date' | 'is_active'> {}
 
-class ApplicationCard extends Model<ApplicationCardAttributes, ApplicationCardCreationAttributes> implements ApplicationCardAttributes {
-    public id!: number;
-    public creation_date!: Date;
+class ApplicationCard extends AbstractModel<ApplicationCardAttributes, ApplicationCardCreationAttributes> implements ApplicationCardAttributes {
+
     public user_id!: number;
     public description!: object
-    public active!: boolean;
+    public is_active!: boolean;
 }
 
 ApplicationCard.init(
     {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-        },
+        ...AbstractModel.getCommonAttributes(),
         user_id: {
             type: DataTypes.NUMBER,
             allowNull: false,
-        },
-        creation_date: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            allowNull: false,
-            get(): string | null {
-                const rawValue = this.getDataValue('creation_date');
-                return rawValue ? format(rawValue, 'yyyy-MM-dd HH:mm:ss') : null;
-            }
         },
         description: {
             type: DataTypes.JSON,
             allowNull: false,
         },
-        active: {
+        is_active: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: true,
@@ -54,7 +39,7 @@ ApplicationCard.init(
     },
     {
         sequelize,
-        modelName: 'application_cards',
+        modelName: DB_TABLES.APPLICATION_CARDS,
         timestamps: false,
     }
 );

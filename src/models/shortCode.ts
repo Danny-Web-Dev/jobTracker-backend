@@ -1,6 +1,7 @@
-import {DataTypes, Model, Optional} from 'sequelize';
+import {DataTypes, Optional} from 'sequelize';
 import sequelize from '../config/sequelize';
-import {format} from "date-fns";
+import {DB_TABLES} from "../config/consts";
+import {AbstractModel} from "./abstractModel";
 
 interface ShortCodeAttributes {
     id: number;
@@ -10,12 +11,9 @@ interface ShortCodeAttributes {
     user_id: number;
 }
 
-interface ShortCodeCreationAttributes extends Optional<ShortCodeAttributes, 'id' | 'creation_date' | 'is_active'> {
-}
+interface ShortCodeCreationAttributes extends Optional<ShortCodeAttributes, 'id' | 'creation_date' | 'is_active'> {}
 
-class ShortCode extends Model<ShortCodeAttributes, ShortCodeCreationAttributes> implements ShortCodeAttributes {
-    public id!: number;
-    public creation_date!: Date;
+class ShortCode extends AbstractModel<ShortCodeAttributes, ShortCodeCreationAttributes> implements ShortCodeAttributes {
     public short_code!: string;
     public is_active!: boolean;
     public user_id!: number;
@@ -23,21 +21,7 @@ class ShortCode extends Model<ShortCodeAttributes, ShortCodeCreationAttributes> 
 
 ShortCode.init(
     {
-        id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        creation_date: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            allowNull: false,
-            get(): string | null {
-                const rawValue = this.getDataValue('creation_date');
-                return rawValue ? format(rawValue, 'yyyy-MM-dd HH:mm:ss') : null;
-            }
-        },
+        ...AbstractModel.getCommonAttributes(),
         short_code: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -55,7 +39,7 @@ ShortCode.init(
     },
     {
         sequelize,
-        modelName: 'email_validation_short_codes',
+        modelName: DB_TABLES.EMAIL_VALIDATION_SHORT_CODES,
         timestamps: false,
     }
 );

@@ -8,7 +8,7 @@ const router = Router();
 
 router.get('/*', async (req: Request, res: Response): Promise<void> => {
     try {
-        const shortCode: string = req.path.replace(/\//g, "");
+        const shortCode: string = req.path.replace(/\//g, '');
         await deactivate(shortCode);
         await validateEmail(shortCode);
         res.json();

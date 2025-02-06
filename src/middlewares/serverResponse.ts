@@ -5,7 +5,7 @@ interface WrappedResponse<T> {
     data: T | { message: string; errorCode: number };
 }
 
-const wrapResponse = (req: Request, res: Response, next: NextFunction) => {
+const wrapResponse = (req: Request, res: Response, next: NextFunction): void => {
     const originalJson = res.json;
     res.json = function (body: any) {
         let wrappedBody: WrappedResponse<typeof body>;
@@ -18,7 +18,7 @@ const wrapResponse = (req: Request, res: Response, next: NextFunction) => {
                 data: body
             };
         } else {
-            const message = body.additionalData ? body.message + ' ' + body.additionalData : body.message || 'An error occurred';
+            const message = body.additionalData ? `${body.message} ${body.additionalData}` : body.message || 'An error occurred';
 
             wrappedBody = {
                 success: false,
